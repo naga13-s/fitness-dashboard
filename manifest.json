@@ -1,7 +1,7 @@
 {
     "name": "My Fitness Tracker",
-    "short_name": "FitnessTracker",
-    "start_url": "index.html",
+    "short_name": "Fitness",
+    "start_url": "./index.html",
     "display": "standalone",
     "background_color": "#0f172a",
     "theme_color": "#00f2fe",
@@ -9,8 +9,7 @@
       {
         "src": "b3535b47-e13d-4042-8ebb-c6cfb6b5772d.png",
         "sizes": "512x512",
-        "type": "image/png",
-        "purpose": "any maskable"
+        "type": "image/png"
       }
     ]
-}
+  }
