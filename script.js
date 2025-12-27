@@ -1,4 +1,4 @@
-// 1. Service Worker Registration for Installation
+// 1. Service Worker Registration
 if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
         navigator.serviceWorker.register('./service-worker.js')
@@ -27,6 +27,29 @@ class FitnessApp {
         this.setDefaultDates();
         this.loadGoals();
         this.updateDashboard();
+        this.showRandomMotivation(); // Initial motivation load
+    }
+
+    showRandomMotivation() {
+        const messages = [
+            "Believe in yourself! 💪",
+            "Don't stop until you're proud. ✨",
+            "Every rep counts. 🏋️‍♂️",
+            "Slow progress is still progress. 🐢",
+            "Sweat is just fat crying. 🔥",
+            "Your only limit is you. 🚀"
+        ];
+        const randomMessage = messages[Math.floor(Math.random() * messages.length)];
+        const bar = document.getElementById('motivation-bar');
+        if (bar) {
+            bar.textContent = randomMessage;
+            bar.style.opacity = '1';
+            // Smoothly fade out after 8 seconds
+            setTimeout(() => {
+                bar.style.transition = 'opacity 2s';
+                bar.style.opacity = '0';
+            }, 8000);
+        }
     }
 
     setupEventListeners() {
@@ -35,12 +58,12 @@ class FitnessApp {
             btn.addEventListener('click', (e) => this.switchTab(e.target.dataset.tab));
         });
 
-        // Forms
+        // Form Submissions
         document.getElementById('workoutForm').addEventListener('submit', (e) => this.addWorkout(e));
         document.getElementById('nutritionForm').addEventListener('submit', (e) => this.addMeal(e));
         document.getElementById('goalsForm').addEventListener('submit', (e) => this.saveGoals(e));
 
-        // History & Data Controls
+        // Data Controls
         const exportBtn = document.getElementById('exportBtn');
         if (exportBtn) exportBtn.addEventListener('click', () => this.exportData());
 
@@ -52,12 +75,10 @@ class FitnessApp {
         const today = new Date().toISOString().split('T')[0];
         const workoutDate = document.getElementById('workoutDate');
         const mealDate = document.getElementById('mealDate');
-        
         if (workoutDate) workoutDate.value = today;
         if (mealDate) mealDate.value = today;
     }
 
-    // Tab Switching Logic - Keeps the app fast
     switchTab(tabName) {
         document.querySelectorAll('.tab-content').forEach(tab => {
             tab.style.display = 'none';
@@ -77,7 +98,7 @@ class FitnessApp {
         const activeBtn = document.querySelector(`[data-tab="${tabName}"]`);
         if (activeBtn) activeBtn.classList.add('active');
 
-        // Refresh data based on tab
+        // Logic to refresh views when switching
         if (tabName === 'dashboard') this.updateDashboard();
         if (tabName === 'workout') this.displayWorkouts();
         if (tabName === 'nutrition') this.displayMeals();
@@ -95,7 +116,6 @@ class FitnessApp {
             calories: parseInt(document.getElementById('workoutCalories').value),
             notes: document.getElementById('workoutNotes').value
         };
-
         this.workouts.unshift(workout);
         this.saveData();
         this.displayWorkouts();
@@ -117,7 +137,6 @@ class FitnessApp {
             carbs: parseFloat(document.getElementById('carbs').value) || 0,
             fat: parseFloat(document.getElementById('fat').value) || 0
         };
-
         this.meals.unshift(meal);
         this.saveData();
         this.displayMeals();
@@ -127,7 +146,6 @@ class FitnessApp {
         this.showNotification('Meal logged!');
     }
 
-    // FIXED DELETE METHODS
     deleteWorkout(id) {
         if (confirm('Delete this workout?')) {
             this.workouts = this.workouts.filter(w => w.id !== id);
@@ -153,7 +171,6 @@ class FitnessApp {
             container.innerHTML = '<div class="empty-state">No workouts logged.</div>';
             return;
         }
-
         container.innerHTML = this.workouts.slice(0, 10).map(workout => `
             <div class="list-item">
                 <div class="list-item-content">
@@ -173,7 +190,6 @@ class FitnessApp {
             container.innerHTML = '<div class="empty-state">No meals logged.</div>';
             return;
         }
-
         container.innerHTML = this.meals.slice(0, 10).map(meal => `
             <div class="list-item">
                 <div class="list-item-content">
@@ -290,11 +306,6 @@ class FitnessApp {
         `;
     }
 
-    getWeeklyWorkouts() {
-        const weekAgo = new Date(new Date().getTime() - 7 * 24 * 60 * 60 * 1000);
-        return this.workouts.filter(w => new Date(w.date) >= weekAgo).length;
-    }
-
     displayHistory() {
         const container = document.getElementById('historyContainer');
         const data = [...this.workouts, ...this.meals].sort((a, b) => new Date(b.date) - new Date(a.date));
@@ -305,22 +316,6 @@ class FitnessApp {
                 <button class="delete-btn" onclick="${item.name ? 'app.deleteMeal' : 'app.deleteWorkout'}(${item.id})">Delete</button>
             </div>
         `).join('');
-    }
-
-    exportData() {
-        const blob = new Blob([JSON.stringify({workouts: this.workouts, meals: this.meals})], {type: 'application/json'});
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = 'fitness_data.json';
-        a.click();
-    }
-
-    clearAllData() {
-        if (confirm('Clear everything?')) {
-            localStorage.clear();
-            location.reload();
-        }
     }
 
     saveData() {
@@ -346,6 +341,22 @@ class FitnessApp {
         n.textContent = msg;
         document.body.appendChild(n);
         setTimeout(() => n.remove(), 2000);
+    }
+
+    exportData() {
+        const blob = new Blob([JSON.stringify({workouts: this.workouts, meals: this.meals})], {type: 'application/json'});
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'fitness_data.json';
+        a.click();
+    }
+
+    clearAllData() {
+        if (confirm('Clear everything?')) {
+            localStorage.clear();
+            location.reload();
+        }
     }
 }
 
