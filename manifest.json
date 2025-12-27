@@ -1,15 +1,16 @@
 {
-    "name": "My Fitness Pro",
-    "short_name": "FitnessPro",
+    "name": "My Fitness Tracker",
+    "short_name": "FitnessTracker",
     "start_url": "index.html",
     "display": "standalone",
     "background_color": "#0f172a",
     "theme_color": "#00f2fe",
     "icons": [
       {
-        "src": "https://cdn-icons-png.flaticon.com/512/3048/3048398.png",
+        "src": "b3535b47-e13d-4042-8ebb-c6cfb6b5772d.png",
         "sizes": "512x512",
-        "type": "image/png"
+        "type": "image/png",
+        "purpose": "any maskable"
       }
     ]
-  }
+}

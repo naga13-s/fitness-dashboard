@@ -122,17 +122,21 @@ class FitnessApp {
     }
 
     deleteWorkout(id) {
-        this.workouts = this.workouts.filter(w => w.id !== id);
-        this.saveData();
-        this.displayWorkouts();
-        this.updateDashboard();
+        if(confirm('Delete this workout?')) {
+            this.workouts = this.workouts.filter(w => w.id !== id);
+            this.saveData();
+            this.displayWorkouts(); // Refresh the list
+            this.updateDashboard(); // Refresh the charts/counters
+        }
     }
 
     deleteMeal(id) {
-        this.meals = this.meals.filter(m => m.id !== id);
-        this.saveData();
-        this.displayMeals();
-        this.updateDashboard();
+        if(confirm('Delete this meal?')) {
+            this.meals = this.meals.filter(m => m.id !== id);
+            this.saveData();
+            this.displayMeals(); // Refresh the list
+            this.updateDashboard(); // Refresh the charts/counters
+        }
     }
 
     displayWorkouts() {
@@ -530,9 +534,12 @@ class FitnessApp {
     }
 }
 
-// Initialize app when DOM is ready
+// Initialize app globally so the buttons can find it
+let app; 
+
 document.addEventListener('DOMContentLoaded', () => {
-    window.app = new FitnessApp();
+    app = new FitnessApp();
+    window.app = app; // This makes app.deleteWorkout() work from the HTML
 });
 
 // Add animation keyframes
