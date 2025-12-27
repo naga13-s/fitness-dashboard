@@ -1,0 +1,15 @@
+{
+    "name": "My Fitness Pro",
+    "short_name": "FitnessPro",
+    "start_url": "index.html",
+    "display": "standalone",
+    "background_color": "#0f172a",
+    "theme_color": "#00f2fe",
+    "icons": [
+      {
+        "src": "https://cdn-icons-png.flaticon.com/512/3048/3048398.png",
+        "sizes": "512x512",
+        "type": "image/png"
+      }
+    ]
+  }

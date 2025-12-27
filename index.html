@@ -2,79 +2,80 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>💪 Fitness Dashboard</title>
+    <link rel="manifest" href="manifest.json">
     <link rel="stylesheet" href="styles.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
     <div class="container">
-        <!-- Header -->
         <header class="header">
             <div class="header-content">
-                <h1>💪 Fitness Dashboard</h1>
-                <p>Track your fitness journey and achieve your goals</p>
+                <h1>💪 Fitness Pro</h1>
+                <p>Track your journey to a better you</p>
             </div>
         </header>
 
-        <!-- Navigation -->
         <nav class="navbar">
             <button class="nav-btn active" data-tab="dashboard">Dashboard</button>
-            <button class="nav-btn" data-tab="workout">Log Workout</button>
-            <button class="nav-btn" data-tab="nutrition">Log Nutrition</button>
+            <button class="nav-btn" data-tab="workout">Workouts</button>
+            <button class="nav-btn" data-tab="nutrition">Meals</button>
             <button class="nav-btn" data-tab="goals">Goals</button>
             <button class="nav-btn" data-tab="history">History</button>
         </nav>
 
-        <!-- Main Content -->
         <main class="main-content">
-            <!-- Dashboard Tab -->
+            
             <section id="dashboard" class="tab-content active">
-                <h2>Today's Summary</h2>
                 <div class="summary-grid">
                     <div class="summary-card">
-                        <h3>Calories Burned</h3>
+                        <h3>🔥 Burned</h3>
                         <p class="summary-value" id="caloriesBurned">0</p>
                         <p class="summary-unit">kcal</p>
                     </div>
                     <div class="summary-card">
-                        <h3>Calories Consumed</h3>
+                        <h3>🥗 Consumed</h3>
                         <p class="summary-value" id="caloriesConsumed">0</p>
                         <p class="summary-unit">kcal</p>
                     </div>
                     <div class="summary-card">
-                        <h3>Net Calories</h3>
+                        <h3>⚖️ Net</h3>
                         <p class="summary-value" id="netCalories">0</p>
                         <p class="summary-unit">kcal</p>
                     </div>
                     <div class="summary-card">
-                        <h3>Workouts</h3>
+                        <h3>🏃 Sessions</h3>
                         <p class="summary-value" id="workoutCount">0</p>
-                        <p class="summary-unit">sessions</p>
+                        <p class="summary-unit">count</p>
                     </div>
                 </div>
 
-                <h2>Weekly Progress</h2>
-                <div class="chart-container">
-                    <canvas id="caloriesChart"></canvas>
-                </div>
-
-                <h2>Macronutrients</h2>
-                <div class="chart-container">
-                    <canvas id="macroChart"></canvas>
+                <div class="dashboard-charts">
+                    <div class="chart-box">
+                        <h2>Weekly Progress</h2>
+                        <div class="chart-container">
+                            <canvas id="caloriesChart"></canvas>
+                        </div>
+                    </div>
+                    <div class="chart-box">
+                        <h2>Macronutrients</h2>
+                        <div class="chart-container">
+                            <canvas id="macroChart"></canvas>
+                        </div>
+                    </div>
                 </div>
             </section>
 
-            <!-- Workout Tab -->
             <section id="workout" class="tab-content">
                 <h2>Log Your Workout</h2>
                 <form id="workoutForm" class="form">
                     <div class="form-group">
-                        <label for="workoutDate">Date:</label>
+                        <label>Date:</label>
                         <input type="date" id="workoutDate" required>
                     </div>
                     <div class="form-group">
-                        <label for="workoutType">Exercise Type:</label>
+                        <label>Exercise Type:</label>
                         <select id="workoutType" required>
                             <option value="">Select an exercise</option>
                             <option value="Running">Running</option>
@@ -88,115 +89,70 @@
                         </select>
                     </div>
                     <div class="form-group">
-                        <label for="workoutDuration">Duration (minutes):</label>
+                        <label>Duration (min):</label>
                         <input type="number" id="workoutDuration" min="1" required>
                     </div>
                     <div class="form-group">
-                        <label for="workoutCalories">Calories Burned:</label>
+                        <label>Calories Burned:</label>
                         <input type="number" id="workoutCalories" min="0" required>
                     </div>
                     <div class="form-group">
-                        <label for="workoutNotes">Notes:</label>
-                        <textarea id="workoutNotes" rows="3"></textarea>
+                        <label>Notes:</label>
+                        <textarea id="workoutNotes" rows="2"></textarea>
                     </div>
-                    <button type="submit" class="btn btn-primary">Log Workout</button>
+                    <button type="submit" class="btn btn-primary">Save Workout</button>
                 </form>
-
-                <h2>Recent Workouts</h2>
                 <div id="workoutList" class="list-container"></div>
             </section>
 
-            <!-- Nutrition Tab -->
             <section id="nutrition" class="tab-content">
                 <h2>Log Your Meal</h2>
                 <form id="nutritionForm" class="form">
+                    <div class="form-group"><label>Date:</label><input type="date" id="mealDate" required></div>
                     <div class="form-group">
-                        <label for="mealDate">Date:</label>
-                        <input type="date" id="mealDate" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="mealType">Meal Type:</label>
+                        <label>Meal Type:</label>
                         <select id="mealType" required>
-                            <option value="">Select meal type</option>
                             <option value="Breakfast">Breakfast</option>
                             <option value="Lunch">Lunch</option>
                             <option value="Dinner">Dinner</option>
                             <option value="Snack">Snack</option>
                         </select>
                     </div>
-                    <div class="form-group">
-                        <label for="mealName">Meal Name:</label>
-                        <input type="text" id="mealName" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="calories">Calories:</label>
-                        <input type="number" id="calories" min="0" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="protein">Protein (g):</label>
-                        <input type="number" id="protein" min="0" step="0.1">
-                    </div>
-                    <div class="form-group">
-                        <label for="carbs">Carbohydrates (g):</label>
-                        <input type="number" id="carbs" min="0" step="0.1">
-                    </div>
-                    <div class="form-group">
-                        <label for="fat">Fat (g):</label>
-                        <input type="number" id="fat" min="0" step="0.1">
-                    </div>
-                    <button type="submit" class="btn btn-primary">Log Meal</button>
+                    <div class="form-group"><label>Meal Name:</label><input type="text" id="mealName" required></div>
+                    <div class="form-group"><label>Calories:</label><input type="number" id="calories" min="0" required></div>
+                    <div class="form-group"><label>Protein (g):</label><input type="number" id="protein" min="0"></div>
+                    <div class="form-group"><label>Carbs (g):</label><input type="number" id="carbs" min="0"></div>
+                    <div class="form-group"><label>Fat (g):</label><input type="number" id="fat" min="0"></div>
+                    <button type="submit" class="btn btn-primary">Save Meal</button>
                 </form>
-
-                <h2>Recent Meals</h2>
                 <div id="mealList" class="list-container"></div>
             </section>
 
-            <!-- Goals Tab -->
             <section id="goals" class="tab-content">
                 <h2>Your Fitness Goals</h2>
                 <form id="goalsForm" class="form">
-                    <div class="form-group">
-                        <label for="dailyCalorieGoal">Daily Calorie Goal:</label>
-                        <input type="number" id="dailyCalorieGoal" min="1000" step="100">
-                    </div>
-                    <div class="form-group">
-                        <label for="proteinGoal">Daily Protein Goal (g):</label>
-                        <input type="number" id="proteinGoal" min="0" step="1">
-                    </div>
-                    <div class="form-group">
-                        <label for="workoutGoal">Weekly Workouts Goal:</label>
-                        <input type="number" id="workoutGoal" min="1" step="1">
-                    </div>
-                    <div class="form-group">
-                        <label for="weightGoal">Target Weight (kg):</label>
-                        <input type="number" id="weightGoal" step="0.1">
-                    </div>
-                    <button type="submit" class="btn btn-primary">Save Goals</button>
+                    <div class="form-group"><label>Daily Calorie Goal:</label><input type="number" id="dailyCalorieGoal"></div>
+                    <div class="form-group"><label>Daily Protein Goal (g):</label><input type="number" id="proteinGoal"></div>
+                    <div class="form-group"><label>Weekly Workouts Goal:</label><input type="number" id="workoutGoal"></div>
+                    <button type="submit" class="btn btn-primary">Update Goals</button>
                 </form>
-
                 <div id="goalsDisplay" class="goals-container"></div>
             </section>
 
-            <!-- History Tab -->
             <section id="history" class="tab-content">
                 <h2>Activity History</h2>
                 <div class="history-controls">
-                    <input type="date" id="historyDate" class="form-input">
-                    <button id="filterBtn" class="btn btn-secondary">Filter</button>
-                    <button id="resetBtn" class="btn btn-secondary">Reset</button>
                     <button id="exportBtn" class="btn btn-secondary">Export Data</button>
-                    <button id="clearBtn" class="btn btn-danger">Clear All Data</button>
+                    <button id="clearBtn" class="btn btn-danger">Clear All</button>
                 </div>
                 <div id="historyContainer" class="list-container"></div>
             </section>
         </main>
 
-        <!-- Footer -->
         <footer class="footer">
-            <p>Stay fit, stay healthy! 💪 | © naga 2025 Fitness Dashboard</p>
+            <p>💪 Naga Fitness 2025 | Built for Performance</p>
         </footer>
     </div>
-
     <script src="script.js"></script>
 </body>
 </html>
